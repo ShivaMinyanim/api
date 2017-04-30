@@ -63,4 +63,17 @@ class GetMinyanimTest extends TestCase
         $this->assertResultsCount(4, $responseFor2016);
         $this->assertResultsCount(5, $responseFor2017);
     }
+
+    /** @test */
+    public function a_user_can_filter_minyanim_by_date()
+    {
+        createMinyanWithDate('1/1/2017');
+        createMinyanWithDate('1/2/2017');
+        createMinyanWithDate('2/6/2016');
+        createMinyanWithDate('1/3/2017', 2);
+
+        $response = $this->get("{$this->path}?day=3&month=1&year=2017");
+
+        $this->assertResultsCount(2, $response);
+    }
 }

@@ -22,7 +22,7 @@ function create(string $class, array $attributes = [], int $times = null)
  * @param  int    $times
  * @return mixed
  */
-function createMinyanWithDate(string $date, int $times)
+function createMinyanWithDate(string $date, int $times = null)
 {
     return create(\App\Models\Minyan::class, ['timestamp' => Carbon\Carbon::parse($date)], $times);
 }

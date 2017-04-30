@@ -9,17 +9,19 @@ class MinyanFilters extends Filters
      *
      * @var array
      */
-    protected $filters = ['year', 'month'];
+    protected $filters = [
+        'day', 'month', 'year'
+    ];
 
     /**
-     * Filter minyanim by year.
+     * Filter minyanim by day.
      *
-     * @param  string $year
+     * @param  string $day
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    protected function year($year)
+    protected function day(string $day)
     {
-        return $this->builder->whereYear('timestamp', $year);
+        return $this->builder->whereDay('timestamp', $this->formatTwoDigits($day));
     }
 
     /**
@@ -28,18 +30,29 @@ class MinyanFilters extends Filters
      * @param  string $month
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    protected function month($month)
+    protected function month(string $month)
     {
-        return $this->builder->whereMonth('timestamp', $this->formatMonth($month));
+        return $this->builder->whereMonth('timestamp', $this->formatTwoDigits($month));
     }
 
     /**
-     * Format a month to have a leading 0 if necessary.
+     * Filter minyanim by year.
+     *
+     * @param  string $year
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    protected function year(string $year)
+    {
+        return $this->builder->whereYear('timestamp', $year);
+    }
+
+    /**
+     * Format a number to have a leading 0 if necessary.
      *
      * @param  string $month
      * @return string
      */
-    private function formatMonth($month)
+    private function formatTwoDigits(string $month)
     {
         return strlen($month) === 1 ? '0' . $month : $month;
     }

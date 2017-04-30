@@ -26,16 +26,16 @@ class GetMinyanimTest extends TestCase
     }
 
     /** @test */
-    public function a_user_can_filter_minyanim_by_year()
+    public function a_user_can_filter_minyanim_by_day()
     {
-        $minyanimIn2016 = createMinyanWithDate('1/1/2016', 4);
-        $minyanimIn2017 = createMinyanWithDate('1/1/2017', 5);
+        $minyanimOnDay3 = createMinyanWithDate('1/3/2017', 1);
+        $minyanimOnDay4 = createMinyanWithDate('2/4/2016', 2);
 
-        $responseFor2016 = $this->get("{$this->path}?year=2016");
-        $responseFor2017 = $this->get("{$this->path}?year=2017");
+        $responseForDay3 = $this->get("{$this->path}?day=3");
+        $responseForDay4 = $this->get("{$this->path}?day=4");
 
-        $this->assertResultsCount(4, $responseFor2016);
-        $this->assertResultsCount(5, $responseFor2017);
+        $this->assertResultsCount(1, $responseForDay3);
+        $this->assertResultsCount(2, $responseForDay4);
     }
 
     /** @test */
@@ -49,5 +49,18 @@ class GetMinyanimTest extends TestCase
 
         $this->assertResultsCount(2, $responseForJune);
         $this->assertResultsCount(3, $responseForJuly);
+    }
+
+    /** @test */
+    public function a_user_can_filter_minyanim_by_year()
+    {
+        $minyanimIn2016 = createMinyanWithDate('1/1/2016', 4);
+        $minyanimIn2017 = createMinyanWithDate('1/1/2017', 5);
+
+        $responseFor2016 = $this->get("{$this->path}?year=2016");
+        $responseFor2017 = $this->get("{$this->path}?year=2017");
+
+        $this->assertResultsCount(4, $responseFor2016);
+        $this->assertResultsCount(5, $responseFor2017);
     }
 }

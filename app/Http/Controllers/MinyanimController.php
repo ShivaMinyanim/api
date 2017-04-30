@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Minyan;
+use App\Models\Minyan;
 use Illuminate\Http\Request;
+use App\Filters\MinyanFilters;
 
 class MinyanimController extends Controller
 {
@@ -12,16 +13,11 @@ class MinyanimController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(MinyanFilters $filters)
     {
-        $minyanim = Minyan::whereYear('timestamp', $request->year)
-            // ->whereMonth('timestamp', $request->month)
-            ->whereDay('timestamp', $request->day)
-            ->get();
+        $minyanim = Minyan::filter($filters)->get();
 
-        return [
-            'data' => $minyanim
-        ];
+        return $this->respondWithData($minyanim);
     }
 
     /**

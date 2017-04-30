@@ -8,14 +8,20 @@ use Tests\Api\TestCase;
 
 class GetMinyanimTest extends TestCase
 {
+    /**
+     * The API URI for this test.
+     *
+     * @var string
+     */
+    protected $path = 'api/minyanim';
+
     /** @test */
     public function a_user_can_get_all_minyanim()
     {
         create(Minyan::class, [], 20);
 
-        $response = $this->get('api/minyanim');
+        $response = $this->get($this->path);
 
-        $response->assertStatus(200);
         $this->assertResultsCount(20, $response);
     }
 
@@ -25,23 +31,23 @@ class GetMinyanimTest extends TestCase
         $minyanimIn2016 = createMinyanWithDate('1/1/2016', 4);
         $minyanimIn2017 = createMinyanWithDate('1/1/2017', 5);
 
-        $responseFor2016 = $this->get('api/minyanim?year=2016');
-        $responseFor2016->assertStatus(200);
-        $this->assertResultsCount(4, $responseFor2016);
+        $responseFor2016 = $this->get("{$this->path}?year=2016");
+        $responseFor2017 = $this->get("{$this->path}?year=2017");
 
-        $responseFor2017 = $this->get('api/minyanim?year=2017');
-        $responseFor2017->assertStatus(200);
+        $this->assertResultsCount(4, $responseFor2016);
         $this->assertResultsCount(5, $responseFor2017);
     }
 
-    // minyan filters i might want:
-    // ////////////////////////
-    // by today
-    // by different day
-    // by week
-    // by upcoming week
-    // by shiva house
-    // by shul
-    // by community
-    // past??
+    /** @test */
+    public function a_user_can_filter_minyanim_by_month()
+    {
+        $minyanimInJune = createMinyanWithDate('6/1/2017', 2);
+        $minyanimInJuly = createMinyanWithDate('7/1/2016', 3);
+
+        $responseForJune = $this->get("{$this->path}?month=6");
+        $responseForJuly = $this->get("{$this->path}?month=7");
+
+        $this->assertResultsCount(2, $responseForJune);
+        $this->assertResultsCount(3, $responseForJuly);
+    }
 }

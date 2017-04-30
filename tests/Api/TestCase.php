@@ -20,6 +20,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected function assertResultsCount(int $expected, TestResponse $response)
     {
+        $response->assertStatus(200);
         $this->assertCount($expected, $response->json()['data']);
     }
 }

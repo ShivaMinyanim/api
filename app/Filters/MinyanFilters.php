@@ -9,7 +9,7 @@ class MinyanFilters extends Filters
      *
      * @var array
      */
-    protected $filters = ['year'];
+    protected $filters = ['year', 'month'];
 
     /**
      * Filter minyanim by year.
@@ -20,5 +20,27 @@ class MinyanFilters extends Filters
     protected function year($year)
     {
         return $this->builder->whereYear('timestamp', $year);
+    }
+
+    /**
+     * Filter minyanim by month.
+     *
+     * @param  string $month
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    protected function month($month)
+    {
+        return $this->builder->whereMonth('timestamp', $this->formatMonth($month));
+    }
+
+    /**
+     * Format a month to have a leading 0 if necessary.
+     *
+     * @param  string $month
+     * @return string
+     */
+    private function formatMonth($month)
+    {
+        return strlen($month) === 1 ? '0' . $month : $month;
     }
 }

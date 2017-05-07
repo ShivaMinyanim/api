@@ -14,14 +14,14 @@ class GetMinyanimTest extends TestCase
      *
      * @var string
      */
-    protected $path = 'api/minyanim';
+    protected $uri = '/minyanim';
 
     /** @test */
     public function a_user_can_get_all_minyanim()
     {
         create(Minyan::class, [], 20);
 
-        $response = $this->get($this->path);
+        $response = $this->get($this->path());
 
         $this->assertResultsCount(20, $response);
     }
@@ -32,8 +32,8 @@ class GetMinyanimTest extends TestCase
         $minyanimOnDay3 = createMinyanWithDate('1/3/2017', 1);
         $minyanimOnDay4 = createMinyanWithDate('2/4/2016', 2);
 
-        $responseForDay3 = $this->get("{$this->path}?day=3");
-        $responseForDay4 = $this->get("{$this->path}?day=4");
+        $responseForDay3 = $this->get("{$this->path()}?day=3");
+        $responseForDay4 = $this->get("{$this->path()}?day=4");
 
         $this->assertResultsCount(1, $responseForDay3);
         $this->assertResultsCount(2, $responseForDay4);
@@ -45,8 +45,8 @@ class GetMinyanimTest extends TestCase
         $minyanimInJune = createMinyanWithDate('6/1/2017', 2);
         $minyanimInJuly = createMinyanWithDate('7/1/2016', 3);
 
-        $responseForJune = $this->get("{$this->path}?month=6");
-        $responseForJuly = $this->get("{$this->path}?month=7");
+        $responseForJune = $this->get("{$this->path()}?month=6");
+        $responseForJuly = $this->get("{$this->path()}?month=7");
 
         $this->assertResultsCount(2, $responseForJune);
         $this->assertResultsCount(3, $responseForJuly);
@@ -58,8 +58,8 @@ class GetMinyanimTest extends TestCase
         $minyanimIn2016 = createMinyanWithDate('1/1/2016', 4);
         $minyanimIn2017 = createMinyanWithDate('1/1/2017', 5);
 
-        $responseFor2016 = $this->get("{$this->path}?year=2016");
-        $responseFor2017 = $this->get("{$this->path}?year=2017");
+        $responseFor2016 = $this->get("{$this->path()}?year=2016");
+        $responseFor2017 = $this->get("{$this->path()}?year=2017");
 
         $this->assertResultsCount(4, $responseFor2016);
         $this->assertResultsCount(5, $responseFor2017);
@@ -73,7 +73,7 @@ class GetMinyanimTest extends TestCase
         createMinyanWithDate('2/6/2016');
         createMinyanWithDate('1/3/2017', 2);
 
-        $response = $this->get("{$this->path}?day=3&month=1&year=2017");
+        $response = $this->get("{$this->path()}?day=3&month=1&year=2017");
 
         $this->assertResultsCount(2, $response);
     }
@@ -81,25 +81,18 @@ class GetMinyanimTest extends TestCase
     /** @test */
     public function minyanim_have_the_following_api_structure()
     {
-        $house = create(House::class);
-        $minyan = create(Minyan::class, ['house_id' => $house->id]);
+        $minyan = create(Minyan::class);
 
-        $this->get($this->path)
-            ->assertStatus(200)
-            ->assertJson([
-                'data' => [
-                    0 => [
-                        'type' => $minyan->type,
-                        'house' => [
-                            'street' => $house->street,
-                            'city' => $house->city,
-                            'state' => $house->state
-                        ],
-                        'timestamp' => $minyan->timestamp
-                    ]
-                ]
-            ]);
+        $response = $this->get($this->path());
+
+        $this->assertResultHasStructure($response, [
+            'type' => $minyan->type,
+            'house' => [
+                'street' => $minyan->house->street,
+                'city' => $minyan->house->city,
+                'state' => $minyan->house->state
+            ],
+            'timestamp' => $minyan->timestamp
+        ]);
     }
-
-    // this->uri instead, and have prefix be higher up so it can change
 }

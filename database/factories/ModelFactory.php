@@ -30,6 +30,21 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
  */
 $factory->define(App\Models\Minyan::class, function (Faker\Generator $faker) {
     return [
-        'timestamp' => $faker->dateTime
+        'type' => $faker->randomElement(['shacharis', 'mincha', 'mincha/maariv', 'maariv']),
+        'timestamp' => $faker->dateTime->format('Y-m-d H:i:s'),
+        'house_id' => function () {
+            return factory(App\Models\House::class)->create()->id;
+        }
+    ];
+});
+
+/**
+ * House factory.
+ */
+$factory->define(App\Models\House::class, function (Faker\Generator $faker) {
+    return [
+        'street' => $faker->streetAddress,
+        'city' => $faker->city,
+        'state' => $faker->state
     ];
 });

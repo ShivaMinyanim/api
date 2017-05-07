@@ -3,6 +3,7 @@
 namespace Tests\Api\Minyanim;
 
 use Carbon\Carbon;
+use App\Models\House;
 use App\Models\Minyan;
 use Tests\Api\TestCase;
 
@@ -76,4 +77,29 @@ class GetMinyanimTest extends TestCase
 
         $this->assertResultsCount(2, $response);
     }
+
+    /** @test */
+    public function minyanim_have_the_following_api_structure()
+    {
+        $house = create(House::class);
+        $minyan = create(Minyan::class, ['house_id' => $house->id]);
+
+        $this->get($this->path)
+            ->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    0 => [
+                        'type' => $minyan->type,
+                        'house' => [
+                            'street' => $house->street,
+                            'city' => $house->city,
+                            'state' => $house->state
+                        ],
+                        'timestamp' => $minyan->timestamp
+                    ]
+                ]
+            ]);
+    }
+
+    // this->uri instead, and have prefix be higher up so it can change
 }

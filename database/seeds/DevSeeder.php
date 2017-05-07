@@ -1,8 +1,9 @@
 <?php
 
+use App\Models\Minyan;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class DevSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +12,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(DevSeeder::class);
+        // create(Minyan::class);
     }
 }

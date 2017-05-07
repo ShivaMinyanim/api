@@ -15,6 +15,13 @@ class Minyan extends Model
     protected $table = 'minyanim';
 
     /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = ['house'];
+
+    /**
      * Apply all relevant thread filters.
      *
      * @param  Builder       $query
@@ -24,5 +31,15 @@ class Minyan extends Model
     public function scopeFilter($query, MinyanFilters $filters)
     {
         return $filters->apply($query);
+    }
+
+    /**
+     * A minyan takes place in a shiva house.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function house()
+    {
+        return $this->belongsTo(House::class);
     }
 }

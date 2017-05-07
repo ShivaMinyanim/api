@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMinyansTable extends Migration
+class CreateHousesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateMinyansTable extends Migration
      */
     public function up()
     {
-        Schema::create('minyanim', function (Blueprint $table) {
+        Schema::create('houses', function (Blueprint $table) {
             $table->increments('id');
-            $table->enum('type', ['shacharis', 'mincha', 'mincha/maariv', 'maariv']);
-            $table->timestamp('timestamp');
+            $table->string('street');
+            $table->string('city');
+            $table->string('state');
             $table->timestamps();
-
-            $table->unsignedInteger('house_id');
         });
     }
 
@@ -30,6 +29,6 @@ class CreateMinyansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('minyanim');
+        Schema::dropIfExists('houses');
     }
 }

@@ -23,7 +23,7 @@ class DevSeeder extends Seeder
      * given day count.
      *
      * @param  int    $days
-     * @return [type]
+     * @return void
      */
     protected function create_house_with_minyanim_for_days(int $days)
     {

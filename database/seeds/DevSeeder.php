@@ -1,6 +1,7 @@
 <?php
 
 use Carbon\Carbon;
+use App\Models\User;
 use App\Models\House;
 use App\Models\Minyan;
 use Illuminate\Database\Seeder;
@@ -16,6 +17,11 @@ class DevSeeder extends Seeder
     {
         $this->create_house_with_minyanim_for_days($days = 2);
         $this->create_house_with_minyanim_for_days($days = 2);
+
+        create(User::class, [
+            'name' => 'ari',
+            'email' => 'ari@example.com'
+        ]);
     }
 
     /**

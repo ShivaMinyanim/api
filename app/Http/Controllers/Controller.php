@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Response;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -39,7 +40,7 @@ class Controller extends BaseController
      * Set the HTTP status code.
      *
      * @param  $statusCode
-     * @return APIController
+     * @return $this
      */
     public function setStatusCode($statusCode)
     {
@@ -59,29 +60,36 @@ class Controller extends BaseController
     }
 
     /**
+     * Respond with an HTTP_CREATED success.
+     *
+     * @param  mixed $created
+     * @return \Illuminate\Http\Response
+     */
+    protected function respondCreated($created = null)
+    {
+        return $this->setStatusCode(Response::HTTP_CREATED)
+            ->respond($created);
+    }
+
+    /**
+     * Respond with a generic HTTP_OK response.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    protected function respondOk($data = null)
+    {
+        return $this->respond($data);
+    }
+
+    /**
      * Respond to an HTTP request.
      *
      * @param  array  $data
      * @param  array  $headers
      * @return \Illuminate\Http\Response
      */
-    public function respond($data, $headers = [])
+    private function respond($data = null, $headers = [])
     {
         return response()->json($data, $this->getStatusCode(), $headers);
-    }
-
-    /**
-     * Respond to an HTTP request with the data requested.
-     *
-     * @param  array $data
-     * @param  array  $headers
-     * @return \Illuminate\Http\Response
-     */
-    protected function respondWithData($data, $headers = [])
-    {
-        return $this->respond([
-            'data' => $data,
-            'errors' => $this->getErrors()
-        ], $headers);
     }
 }

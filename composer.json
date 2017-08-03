@@ -28,7 +28,7 @@
             "Tests\\": "tests/"
         },
         "files": [
-            "tests/Utils/helpers.php"
+            "tests/utils/helpers.php"
         ]
     },
     "scripts": {

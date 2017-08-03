@@ -18,3 +18,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/minyanim', 'MinyanimController@index');
+
+Route::put('/users/{user}/minyanim', 'AttendancesController@store');
+Route::delete('/users/{user}/minyanim/{minyan}', 'AttendancesController@destroy');

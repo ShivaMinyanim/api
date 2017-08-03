@@ -2,22 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Minyan;
 use Illuminate\Http\Request;
-use App\Filters\MinyanFilters;
 
-class MinyanimController extends Controller
+class AttendancesController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(MinyanFilters $filters)
+    public function index()
     {
-        $minyanim = Minyan::filter($filters)->get();
-
-        return $this->respondOk($minyanim);
+        //
     }
 
     /**
@@ -36,9 +34,11 @@ class MinyanimController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, User $user)
     {
-        //
+        $user->attend($request->minyan_id);
+
+        return $this->respondCreated();
     }
 
     /**
@@ -81,8 +81,10 @@ class MinyanimController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user, Minyan $minyan)
     {
-        //
+        $user->cancelAttendanceAt($minyan);
+
+        return $this->respondOk();
     }
 }

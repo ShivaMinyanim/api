@@ -1,40 +1,11 @@
 <?php
 
-namespace Tests\Api;
+namespace Tests\utils;
 
-use Tests\Utils\HandlesExceptions;
-use Tests\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\TestResponse;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-abstract class TestCase extends BaseTestCase
+trait InteractsWithJson
 {
-    use HandlesExceptions, DatabaseMigrations;
-
-    /**
-     * The URI prefix for this test suite.
-     *
-     * @var string
-     */
-    private $prefix = '/api';
-
-    /**
-     * The URI for this test.
-     *
-     * @var string
-     */
-    protected $uri = '';
-
-    /**
-     * Get the URI for this test.
-     *
-     * @return string
-     */
-    protected function path()
-    {
-        return $this->prefix . $this->uri;
-    }
-
     /**
      * Assert a JSON response has an expected number of results.
      *
@@ -45,7 +16,7 @@ abstract class TestCase extends BaseTestCase
     protected function assertResultsCount(int $expected, TestResponse $response)
     {
         $response->assertStatus(200);
-        $this->assertCount($expected, $response->json()['data']);
+        $this->assertCount($expected, $response->json());
     }
 
     /**
@@ -60,9 +31,7 @@ abstract class TestCase extends BaseTestCase
     {
         $response->assertStatus(200);
         $response->assertJson([
-            'data' => [
-                0 => $structure
-            ]
+            0 => $structure
         ]);
     }
 }

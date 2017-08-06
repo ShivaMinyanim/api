@@ -22,6 +22,11 @@ class DevSeeder extends Seeder
             'name' => 'ari',
             'email' => 'ari@example.com'
         ]);
+
+        create(User::class, [
+            'name' => 'john',
+            'email' => 'john@example.com'
+        ]);
     }
 
     /**

@@ -2,11 +2,15 @@
 
 namespace Tests\Feature;
 
+use Tests\TestCase;
 use App\Models\User;
 use App\Models\Minyan;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class AUserCanAttendMinyanimTest extends TestCase
 {
+    use DatabaseMigrations;
+
     /** @test */
     public function a_user_can_attend_a_minyan()
     {

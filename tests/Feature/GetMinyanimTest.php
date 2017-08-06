@@ -2,10 +2,14 @@
 
 namespace Tests\Feature;
 
+use Tests\TestCase;
 use App\Models\Minyan;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class GetMinyanimTest extends TestCase
 {
+    use DatabaseMigrations;
+
     /** @test */
     public function a_user_can_get_all_minyanim()
     {

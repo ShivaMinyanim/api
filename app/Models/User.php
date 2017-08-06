@@ -46,7 +46,7 @@ class User extends Authenticatable
      */
     public function attend($minyan)
     {
-        $this->minyanim()->attach($minyan);
+        $this->minyanim()->syncWithoutDetaching($minyan);
     }
 
     /**

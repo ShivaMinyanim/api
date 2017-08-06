@@ -13,9 +13,11 @@ class AttendancesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(User $user)
     {
-        //
+        return $this->respondOk(
+            $user->minyanim()->get()
+        );
     }
 
     /**

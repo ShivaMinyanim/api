@@ -16,6 +16,18 @@ class CreateMinyanUserTable extends Migration
         Schema::create('minyan_user', function (Blueprint $table) {
             $table->integer('minyan_id')->unsigned();
             $table->integer('user_id')->unsigned();
+
+            $table->primary(['minyan_id', 'user_id']);
+
+            $table->foreign('minyan_id')
+                  ->references('id')
+                  ->on('minyanim')
+                  ->onDelete('cascade');
+
+            $table->foreign('user_id')
+                  ->references('id')
+                  ->on('users')
+                  ->onDelete('cascade');
         });
     }
 

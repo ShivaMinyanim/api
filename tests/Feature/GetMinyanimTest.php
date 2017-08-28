@@ -76,16 +76,13 @@ class GetMinyanimTest extends TestCase
     public function minyanim_have_the_following_api_structure()
     {
         $minyan = create(Minyan::class);
+        $house = $minyan->house;
 
         $response = $this->get('api/minyanim');
 
         $this->assertResultHasStructure($response, [
             'type' => $minyan->type,
-            'house' => [
-                'street' => $minyan->house->street,
-                'city' => $minyan->house->city,
-                'state' => $minyan->house->state
-            ],
+            'house' => $house->toArray(),
             'timestamp' => $minyan->timestamp
         ]);
     }

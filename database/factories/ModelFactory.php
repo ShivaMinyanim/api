@@ -45,6 +45,7 @@ $factory->define(App\Models\House::class, function (Faker\Generator $faker) {
     return [
         'street' => $faker->streetAddress,
         'city' => $faker->city,
-        'state' => $faker->stateAbbr
+        'state' => $faker->stateAbbr,
+        'residence_name' => $faker->lastName
     ];
 });

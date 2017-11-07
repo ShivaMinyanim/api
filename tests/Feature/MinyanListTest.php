@@ -6,7 +6,7 @@ use Tests\TestCase;
 use App\Models\Minyan;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class GetMinyanimTest extends TestCase
+class MinyanListTest extends TestCase
 {
     use DatabaseMigrations;
 
